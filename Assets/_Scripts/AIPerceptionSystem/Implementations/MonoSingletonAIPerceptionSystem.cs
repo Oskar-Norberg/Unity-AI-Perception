@@ -1,4 +1,5 @@
-﻿using ringo.AIPerception;
+﻿using System;
+using ringo.AIPerception;
 using ringo.AIPerception.Senses;
 using UnityEngine;
 
@@ -23,19 +24,39 @@ namespace ringo.AIPerceptionSystem
             }
         }
 
-        public void RegisterSense(IPerceptionSense sense, IAIPerception perception)
+        public void RegisterSense<T>(IAIPerception perception) where T : IAISense
         {
-            _perceptionSystem.RegisterSense(sense, perception);
+            _perceptionSystem.RegisterSense<T>(perception);
         }
 
-        public void UnregisterSense(IPerceptionSense sense, IAIPerception perception)
+        public void RegisterSense(Type type, IAIPerception perception)
         {
-            _perceptionSystem.UnregisterSense(sense, perception);
+            _perceptionSystem.RegisterSense(type, perception);
         }
 
-        public void Alert<T>(IPerceptionData perceptionData) where T : IPerceptionSense
+        public void UnregisterSense<T>(IAIPerception perception) where T : IAISense
+        {
+            _perceptionSystem.UnregisterSense<T>(perception);
+        }
+
+        public void UnregisterSense(Type type, IAIPerception perception)
+        {
+            _perceptionSystem.UnregisterSense(type, perception);
+        }
+
+        public void Alert<T>(IPerceptionData perceptionData) where T : IAISense
         {
             _perceptionSystem.Alert<T>(perceptionData);
+        }
+
+        public void Alert(Type type, IPerceptionData perceptionData)
+        {
+            _perceptionSystem.Alert(type, perceptionData);
+        }
+
+        public void AlertScene(Type type, IPerceptionData perceptionData)
+        {
+            _perceptionSystem.Alert(type, perceptionData);
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace ringo.AIPerception.Senses.Hearing
 {
     [CreateAssetMenu(fileName = "HearingData", menuName = "AI Senses/Hearing Sense Data")]
-    public class HearingSenseSO : AISenseSO
+    public class HearingSenseSoBase : AISenseSO<HearingSense>
     {
         public float range = 10.0f;
 
