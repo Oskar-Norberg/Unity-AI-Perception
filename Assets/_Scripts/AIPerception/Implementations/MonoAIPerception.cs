@@ -13,7 +13,7 @@ namespace ringo.AIPerception.Implementations
 
         [SerializeField] private bool enableOnStart = true;
         [SerializeField] private List<AISenseSO> senses = new();
-        
+
         private void Start()
         {
             if (enableOnStart)
@@ -42,8 +42,8 @@ namespace ringo.AIPerception.Implementations
 
         public void NotifyPerceptionEvent<T>(IPerceptionData perceptionData) where T : IPerceptionSense
         {
-            // // Needs to find the sense in the list of senses and see if its condition is met.
-            // // Stupid O(n) loop. Make into dict of type -> sense ref.
+            // Needs to find the sense in the list of senses and see if its condition is met.
+            // Stupid O(n) loop. Make into dict of type -> sense ref.
             foreach (var sense in senses)
             {
                 if (sense.GetType() == typeof(T))
@@ -52,7 +52,7 @@ namespace ringo.AIPerception.Implementations
                     {
                         return;
                     }
-                    
+
                     OnPerceived?.Invoke(typeof(T), perceptionData);
                     return;
                 }

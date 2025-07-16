@@ -7,7 +7,7 @@ namespace ringo.AIPerceptionSystem
     public class MonoSingletonAIPerceptionSystem : MonoBehaviour, IAIPerceptionSystem
     {
         public static MonoSingletonAIPerceptionSystem Instance { get; private set; }
-        
+
         private AIPerceptionSystem _perceptionSystem;
 
         private void Awake()
@@ -22,7 +22,7 @@ namespace ringo.AIPerceptionSystem
                 Destroy(gameObject);
             }
         }
-        
+
         public void RegisterSense(IPerceptionSense sense, IAIPerception perception)
         {
             _perceptionSystem.RegisterSense(sense, perception);

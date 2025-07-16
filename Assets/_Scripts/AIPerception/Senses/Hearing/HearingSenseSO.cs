@@ -14,12 +14,11 @@ namespace ringo.AIPerception.Senses.Hearing
                 return false;
             }
 
-
             // Calculate distance from the perceiver to the sound source.
             // TODO: Weird mix of Vector3 and System.Numerics.Vector3.
             float distance = Vector3.Distance(perceiver.position,
                 new Vector3(hearingData.Position.X, hearingData.Position.Y, hearingData.Position.Z));
-            
+
             return distance <= range;
         }
     }
