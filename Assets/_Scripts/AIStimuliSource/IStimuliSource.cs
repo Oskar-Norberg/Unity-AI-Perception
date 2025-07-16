@@ -14,7 +14,7 @@ namespace ringo.AIStimuliSource
         protected void UnregisterStimuli(Type type, IStimuliSource stimuliSource);
     }
     
-    public interface IStimuliSource<T> : IStimuliSource where T : IAISense 
+    public interface IStimuliSource<out T> : IStimuliSource where T : IAISense 
     {
         T GetSenseData();
     }

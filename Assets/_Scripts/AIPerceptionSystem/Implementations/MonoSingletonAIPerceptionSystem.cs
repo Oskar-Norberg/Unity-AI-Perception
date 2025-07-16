@@ -1,6 +1,7 @@
 ﻿using System;
 using ringo.AIPerception;
 using ringo.AIPerception.Senses;
+using ringo.AIStimuliSource;
 using UnityEngine;
 
 namespace ringo.AIPerceptionSystem
@@ -22,6 +23,26 @@ namespace ringo.AIPerceptionSystem
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        {
+            _perceptionSystem.RegisterStimuli<T>(stimuliSource);
+        }
+
+        public void RegisterStimuli(Type type, IStimuliSource stimuliSource)
+        {
+            _perceptionSystem.RegisterStimuli(type, stimuliSource);
+        }
+
+        public void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        {
+            _perceptionSystem.UnregisterStimuli<T>(stimuliSource);
+        }
+
+        public void UnregisterStimuli(Type type, IStimuliSource stimuliSource)
+        {
+            _perceptionSystem.UnregisterStimuli(type, stimuliSource);
         }
 
         public void RegisterSense<T>(IAIPerception perception) where T : IAISense
