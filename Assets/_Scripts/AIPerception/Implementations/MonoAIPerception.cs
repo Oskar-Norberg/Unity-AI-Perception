@@ -12,8 +12,8 @@ namespace ringo.AIPerception.Implementations
         public event OnPerceivedEventHandler OnPerceived;
 
         [SerializeField] private bool enableOnStart = true;
-        [SerializeField] private List<AISenseSO> senses = new();
-        
+        [SerializeField] private List<AISenseSOBase> senses = new();
+
         private void Start()
         {
             if (enableOnStart)
@@ -28,32 +28,37 @@ namespace ringo.AIPerception.Implementations
             {
                 foreach (var sense in senses)
                 {
-                    MonoSingletonAIPerceptionSystem.Instance.RegisterSense(sense, this);
+                    MonoSingletonAIPerceptionSystem.Instance.RegisterSense(sense.SenseType, this);
                 }
             }
             else
             {
                 foreach (var sense in senses)
                 {
-                    MonoSingletonAIPerceptionSystem.Instance.UnregisterSense(sense, this);
+                    MonoSingletonAIPerceptionSystem.Instance.UnregisterSense(sense.SenseType, this);
                 }
             }
         }
 
-        public void NotifyPerceptionEvent<T>(IPerceptionData perceptionData) where T : IPerceptionSense
+        public void NotifyPerceptionEvent<T>(IPerceptionData perceptionData) where T : IAISense
         {
-            // // Needs to find the sense in the list of senses and see if its condition is met.
-            // // Stupid O(n) loop. Make into dict of type -> sense ref.
+            NotifyPerceptionEvent(typeof(T), perceptionData);
+        }
+
+        public void NotifyPerceptionEvent(Type type, IPerceptionData perceptionData)
+        {
+            // Needs to find the sense in the list of senses and see if its condition is met.
+            // Stupid O(n) loop. Make into dict of type -> sense ref.
             foreach (var sense in senses)
             {
-                if (sense.GetType() == typeof(T))
+                if (sense.SenseType == type)
                 {
                     if (!sense.ConditionMet(transform, perceptionData))
                     {
                         return;
                     }
-                    
-                    OnPerceived?.Invoke(typeof(T), perceptionData);
+
+                    OnPerceived?.Invoke(type, perceptionData);
                     return;
                 }
             }

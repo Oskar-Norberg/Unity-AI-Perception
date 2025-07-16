@@ -9,37 +9,51 @@ namespace ringo.AIPerceptionSystem
     {
         private Dictionary<Type, List<IAIPerception>> _perceptionSenses = new();
 
-        public void RegisterSense(IPerceptionSense sense, IAIPerception perception)
+        public void RegisterSense<T>(IAIPerception perception) where T : IAISense
         {
-            var senseType = sense.GetType();
-
-            if (!_perceptionSenses.ContainsKey(senseType))
-                _perceptionSenses[senseType] = new List<IAIPerception>();
-
-            _perceptionSenses[senseType].Add(perception);
+            RegisterSense(typeof(T), perception);
         }
 
-        public void UnregisterSense(IPerceptionSense sense, IAIPerception perception)
+        public void RegisterSense(Type type, IAIPerception perception)
         {
-            var senseType = sense.GetType();
+            if (!_perceptionSenses.ContainsKey(type))
+                _perceptionSenses[type] = new List<IAIPerception>();
+            
+            if (!_perceptionSenses[type].Contains(perception))
+                _perceptionSenses[type].Add(perception);
+        }
 
-            if (!_perceptionSenses.ContainsKey(senseType))
+        public void UnregisterSense<T>(IAIPerception perception) where T : IAISense
+        {
+            UnregisterSense(typeof(T), perception);
+        }
+
+        public void UnregisterSense(Type type, IAIPerception perception)
+        {
+            if (!_perceptionSenses.ContainsKey(type))
                 return;
 
-            _perceptionSenses[senseType].Remove(perception);
+            _perceptionSenses[type].Remove(perception);
 
-            // No perception senses left for this sense, remove it from the dictionary.
-            if (_perceptionSenses[senseType].Count == 0)
+            if (_perceptionSenses[type].Count == 0)
             {
-                _perceptionSenses.Remove(senseType);
+                _perceptionSenses.Remove(type);
             }
         }
 
-        public void Alert<T>(IPerceptionData perceptionData) where T : IPerceptionSense
+        public void Alert<T>(IPerceptionData perceptionData) where T : IAISense
         {
-            foreach (var sense in _perceptionSenses[typeof(T)])
+            Alert(typeof(T), perceptionData);
+        }
+
+        public void Alert(Type type, IPerceptionData perceptionData)
+        {
+            if (!_perceptionSenses.TryGetValue(type, out var sense))
+                return;
+
+            foreach (var perception in sense)
             {
-                sense.NotifyPerceptionEvent<T>(perceptionData);
+                perception.NotifyPerceptionEvent(type, perceptionData);
             }
         }
     }
