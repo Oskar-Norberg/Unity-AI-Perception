@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ringo.AIPerception;
 using ringo.AIPerception.Senses;
 using ringo.AIStimuliSource;
@@ -12,6 +13,21 @@ namespace ringo.AIPerceptionSystem
         private Dictionary<Type, List<IStimuliSource>> _stimuliSources = new();
 
         // TODO: Break the stimuli source registration into a separate class like StimuliSourceManager. Same for perception.
+        public IEnumerable<IStimuliSource> GetStimuliSources()
+        {
+            return _stimuliSources.Values.SelectMany(sources => sources);
+        }
+
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : IAISense
+        {
+            return GetStimuliSourcesOfType(typeof(T));
+        }
+
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType(Type type)
+        {
+            return _stimuliSources.TryGetValue(type, out var sources) ? sources : Enumerable.Empty<IStimuliSource>();
+        }
+
         public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
         {
             RegisterStimuli(typeof(T), stimuliSource);
@@ -21,7 +37,7 @@ namespace ringo.AIPerceptionSystem
         {
             if (!_stimuliSources.ContainsKey(type))
                 _stimuliSources[type] = new List<IStimuliSource>();
-            
+
             if (!_stimuliSources[type].Contains(stimuliSource))
                 _stimuliSources[type].Add(stimuliSource);
         }
@@ -53,7 +69,7 @@ namespace ringo.AIPerceptionSystem
         {
             if (!_perceptionSenses.ContainsKey(type))
                 _perceptionSenses[type] = new List<IAIPerception>();
-            
+
             if (!_perceptionSenses[type].Contains(perception))
                 _perceptionSenses[type].Add(perception);
         }

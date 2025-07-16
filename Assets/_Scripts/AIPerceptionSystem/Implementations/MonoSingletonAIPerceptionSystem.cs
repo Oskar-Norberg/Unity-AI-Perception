@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ringo.AIPerception;
 using ringo.AIPerception.Senses;
 using ringo.AIStimuliSource;
@@ -23,6 +24,21 @@ namespace ringo.AIPerceptionSystem
             {
                 Destroy(gameObject);
             }
+        }
+
+        public IEnumerable<IStimuliSource> GetStimuliSources()
+        {
+            return _perceptionSystem.GetStimuliSources();
+        }
+
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : IAISense
+        {
+            return _perceptionSystem.GetStimuliSourcesOfType<T>();
+        }
+
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType(Type type)
+        {
+            return _perceptionSystem.GetStimuliSourcesOfType(type);
         }
 
         public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
