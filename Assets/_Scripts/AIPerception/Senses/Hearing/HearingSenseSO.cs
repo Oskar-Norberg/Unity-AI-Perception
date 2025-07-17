@@ -7,7 +7,7 @@ namespace ringo.AIPerception.Senses.Hearing
     {
         public float range = 10.0f;
 
-        protected override bool ConditionMet(Transform perceiver, HearingSenseData senseData)
+        protected override bool ConditionMetInternal(Transform perceiver, HearingSenseData senseData)
         {
             // Calculate distance from the perceiver to the sound source.
             // TODO: Weird mix of Vector3 and System.Numerics.Vector3.

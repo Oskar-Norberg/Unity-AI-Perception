@@ -15,10 +15,15 @@ namespace ringo.AIPerception.Senses
                 return false;
             }
 
-            return ConditionMet(perceiver, data);
+            return ConditionMetInternal(perceiver, data);
         }
         
-        protected abstract bool ConditionMet(Transform perceiver, TPerceptionData perceptionData);
+        public bool ConditionMet(Transform perceiver, TPerceptionData senseData)
+        {
+            return ConditionMetInternal(perceiver, senseData);
+        }
+        
+        protected abstract bool ConditionMetInternal(Transform perceiver, TPerceptionData senseData);
     }
     
     public abstract class AISenseSOBase : ScriptableObject, IPerceptionSense
