@@ -2,7 +2,7 @@
 
 namespace ringo.AIPerception.Senses.Hearing
 {
-    public struct HearingPerceptionData : IPerceptionData
+    public struct HearingSenseData : ISenseData
     {
         public Vector3 Position;
     }

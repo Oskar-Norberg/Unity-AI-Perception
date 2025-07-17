@@ -8,7 +8,7 @@ namespace ringo.AIPerception.Implementations
 {
     public class MonoAIPerception : MonoBehaviour, IAIPerception
     {
-        public delegate void OnPerceivedEventHandler(Type perceptionType, IPerceptionData perceptionData);
+        public delegate void OnPerceivedEventHandler(Type perceptionType, ISenseData senseData);
         public event OnPerceivedEventHandler OnPerceived;
 
         [SerializeField] private bool enableOnStart = true;
@@ -28,37 +28,37 @@ namespace ringo.AIPerception.Implementations
             {
                 foreach (var sense in senses)
                 {
-                    MonoSingletonAIPerceptionSystem.Instance.RegisterSense(sense.SenseType, this);
+                    MonoSingletonAIPerceptionSystem.Instance.RegisterSense(sense.PerceptionType, this);
                 }
             }
             else
             {
                 foreach (var sense in senses)
                 {
-                    MonoSingletonAIPerceptionSystem.Instance.UnregisterSense(sense.SenseType, this);
+                    MonoSingletonAIPerceptionSystem.Instance.UnregisterSense(sense.PerceptionType, this);
                 }
             }
         }
 
-        public void NotifyPerceptionEvent<T>(IPerceptionData perceptionData) where T : IAISense
+        public void NotifyPerceptionEvent<T>(T senseData) where T : ISenseData
         {
-            NotifyPerceptionEvent(typeof(T), perceptionData);
+            NotifyPerceptionEvent(typeof(T), senseData);
         }
 
-        public void NotifyPerceptionEvent(Type type, IPerceptionData perceptionData)
+        public void NotifyPerceptionEvent(Type type, ISenseData senseData)
         {
             // Needs to find the sense in the list of senses and see if its condition is met.
             // Stupid O(n) loop. Make into dict of type -> sense ref.
             foreach (var sense in senses)
             {
-                if (sense.SenseType == type)
+                if (sense.PerceptionType == type)
                 {
-                    if (!sense.ConditionMet(transform, perceptionData))
+                    if (!sense.ConditionMet(transform, senseData))
                     {
                         return;
                     }
 
-                    OnPerceived?.Invoke(type, perceptionData);
+                    OnPerceived?.Invoke(type, senseData);
                     return;
                 }
             }

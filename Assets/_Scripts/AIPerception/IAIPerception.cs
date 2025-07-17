@@ -6,7 +6,7 @@ namespace ringo.AIPerception
     {
         void SetActive(bool isActive);
         
-        void NotifyPerceptionEvent<T>(IPerceptionData perceptionData) where T : IAISense;
-        void NotifyPerceptionEvent(System.Type type, IPerceptionData perceptionData);
+        void NotifyPerceptionEvent<T>(T senseData) where T : ISenseData;
+        void NotifyPerceptionEvent(System.Type type, ISenseData senseData);
     }
 }

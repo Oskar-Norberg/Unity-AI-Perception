@@ -18,7 +18,7 @@ namespace ringo.AIPerceptionSystem
             return _stimuliSources.Values.SelectMany(sources => sources);
         }
 
-        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : IAISense
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : ISenseData
         {
             return GetStimuliSourcesOfType(typeof(T));
         }
@@ -28,7 +28,7 @@ namespace ringo.AIPerceptionSystem
             return _stimuliSources.TryGetValue(type, out var sources) ? sources : Enumerable.Empty<IStimuliSource>();
         }
 
-        public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : ISenseData
         {
             RegisterStimuli(typeof(T), stimuliSource);
         }
@@ -42,7 +42,7 @@ namespace ringo.AIPerceptionSystem
                 _stimuliSources[type].Add(stimuliSource);
         }
 
-        public void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        public void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : ISenseData
         {
             UnregisterStimuli(typeof(T), stimuliSource);
         }
@@ -60,7 +60,7 @@ namespace ringo.AIPerceptionSystem
             }
         }
 
-        public void RegisterSense<T>(IAIPerception perception) where T : IAISense
+        public void RegisterSense<T>(IAIPerception perception) where T : ISenseData
         {
             RegisterSense(typeof(T), perception);
         }
@@ -74,7 +74,7 @@ namespace ringo.AIPerceptionSystem
                 _perceptionSenses[type].Add(perception);
         }
 
-        public void UnregisterSense<T>(IAIPerception perception) where T : IAISense
+        public void UnregisterSense<T>(IAIPerception perception) where T : ISenseData
         {
             UnregisterSense(typeof(T), perception);
         }
@@ -92,19 +92,19 @@ namespace ringo.AIPerceptionSystem
             }
         }
 
-        public void Alert<T>(IPerceptionData perceptionData) where T : IAISense
+        public void Alert<T>(ISenseData senseData) where T : ISenseData
         {
-            Alert(typeof(T), perceptionData);
+            Alert(typeof(T), senseData);
         }
 
-        public void Alert(Type type, IPerceptionData perceptionData)
+        public void Alert(Type type, ISenseData senseData)
         {
             if (!_perceptionSenses.TryGetValue(type, out var sense))
                 return;
 
             foreach (var perception in sense)
             {
-                perception.NotifyPerceptionEvent(type, perceptionData);
+                perception.NotifyPerceptionEvent(type, senseData);
             }
         }
     }

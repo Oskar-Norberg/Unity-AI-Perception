@@ -4,14 +4,13 @@ using UnityEngine;
 namespace ringo.AIPerception.Senses
 {
     // TODO: These need to be renamed to avoid mixing them up.
-    public abstract class AISenseSO<T, T2> : AISenseSOBase, IPerceptionSense<T, T2> where T : IAISense where T2 : IPerceptionData
+    public abstract class AISenseSO<TPerceptionData> : AISenseSOBase, IPerceptionSense<TPerceptionData> where TPerceptionData : ISenseData
     {
-        public override Type SenseType => typeof(T);
-        public override Type DataType => typeof(T2);
+        public override Type PerceptionType => typeof(TPerceptionData);
 
-        public override bool ConditionMet(Transform perceiver, IPerceptionData perceptionData)
+        public override bool ConditionMet(Transform perceiver, ISenseData senseData)
         {
-            if (perceptionData is not T2 data)
+            if (senseData is not TPerceptionData data)
             {
                 return false;
             }
@@ -19,14 +18,13 @@ namespace ringo.AIPerception.Senses
             return ConditionMet(perceiver, data);
         }
         
-        protected abstract bool ConditionMet(Transform perceiver, T2 perceptionData);
+        protected abstract bool ConditionMet(Transform perceiver, TPerceptionData perceptionData);
     }
     
     public abstract class AISenseSOBase : ScriptableObject, IPerceptionSense
     {
-        public abstract Type SenseType { get; }
-        public abstract Type DataType { get; }
+        public abstract Type PerceptionType { get; }
 
-        public abstract bool ConditionMet(Transform perceiver, IPerceptionData perceptionData);
+        public abstract bool ConditionMet(Transform perceiver, ISenseData senseData);
     }
 }

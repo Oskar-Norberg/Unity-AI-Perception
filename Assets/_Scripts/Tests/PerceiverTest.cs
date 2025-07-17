@@ -17,9 +17,9 @@ namespace _Scripts.Tests
             GetComponent<MonoAIPerception>().OnPerceived -= HandlePerceived;
         }
         
-        private void HandlePerceived(Type perceptionType, IPerceptionData perceptionData)
+        private void HandlePerceived(Type perceptionType, ISenseData senseData)
         {
-            Debug.Log("Perceived: " + perceptionType.Name + " with data: " + perceptionData);
+            Debug.Log("Perceived: " + perceptionType.Name + " with data: " + senseData);
         }
     }
 }

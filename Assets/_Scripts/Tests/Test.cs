@@ -10,7 +10,7 @@ namespace _Scripts.Tests
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                MonoSingletonAIPerceptionSystem.Instance.Alert<HearingSense>(new HearingPerceptionData
+                MonoSingletonAIPerceptionSystem.Instance.Alert<HearingSenseData>(new HearingSenseData
                     { Position = new System.Numerics.Vector3(transform.position.x, transform.position.y, transform.position.z) });
             }
         }

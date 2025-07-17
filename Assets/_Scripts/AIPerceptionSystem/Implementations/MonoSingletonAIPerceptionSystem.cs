@@ -31,7 +31,7 @@ namespace ringo.AIPerceptionSystem
             return _perceptionSystem.GetStimuliSources();
         }
 
-        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : IAISense
+        public IEnumerable<IStimuliSource> GetStimuliSourcesOfType<T>() where T : ISenseData
         {
             return _perceptionSystem.GetStimuliSourcesOfType<T>();
         }
@@ -41,7 +41,7 @@ namespace ringo.AIPerceptionSystem
             return _perceptionSystem.GetStimuliSourcesOfType(type);
         }
 
-        public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        public void RegisterStimuli<T>(IStimuliSource stimuliSource) where T : ISenseData
         {
             _perceptionSystem.RegisterStimuli<T>(stimuliSource);
         }
@@ -51,7 +51,7 @@ namespace ringo.AIPerceptionSystem
             _perceptionSystem.RegisterStimuli(type, stimuliSource);
         }
 
-        public void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense
+        public void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : ISenseData
         {
             _perceptionSystem.UnregisterStimuli<T>(stimuliSource);
         }
@@ -61,7 +61,7 @@ namespace ringo.AIPerceptionSystem
             _perceptionSystem.UnregisterStimuli(type, stimuliSource);
         }
 
-        public void RegisterSense<T>(IAIPerception perception) where T : IAISense
+        public void RegisterSense<T>(IAIPerception perception) where T : ISenseData
         {
             _perceptionSystem.RegisterSense<T>(perception);
         }
@@ -71,7 +71,7 @@ namespace ringo.AIPerceptionSystem
             _perceptionSystem.RegisterSense(type, perception);
         }
 
-        public void UnregisterSense<T>(IAIPerception perception) where T : IAISense
+        public void UnregisterSense<T>(IAIPerception perception) where T : ISenseData
         {
             _perceptionSystem.UnregisterSense<T>(perception);
         }
@@ -81,19 +81,14 @@ namespace ringo.AIPerceptionSystem
             _perceptionSystem.UnregisterSense(type, perception);
         }
 
-        public void Alert<T>(IPerceptionData perceptionData) where T : IAISense
+        public void Alert<T>(ISenseData senseData) where T : ISenseData
         {
-            _perceptionSystem.Alert<T>(perceptionData);
+            _perceptionSystem.Alert<T>(senseData);
         }
 
-        public void Alert(Type type, IPerceptionData perceptionData)
+        public void Alert(Type type, ISenseData senseData)
         {
-            _perceptionSystem.Alert(type, perceptionData);
-        }
-
-        public void AlertScene(Type type, IPerceptionData perceptionData)
-        {
-            _perceptionSystem.Alert(type, perceptionData);
+            _perceptionSystem.Alert(type, senseData);
         }
     }
 }
