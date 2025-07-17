@@ -3,19 +3,22 @@ using ringo.AIPerception.Senses;
 
 namespace ringo.AIStimuliSource
 { 
-    public interface IStimuliSource
+    public interface IStimuliSource<TSense, TSenseData> where TSense : IAISense where TSenseData : IPerceptionData
     {
-        object GetSenseDataTyped<T>() where T : IAISense;
-        
-        protected void RegisterStimuli<T>() where T : IAISense;
-        protected void RegisterStimuli(Type type);
-        
-        protected void UnregisterStimuli<T>(IStimuliSource stimuliSource) where T : IAISense;
-        protected void UnregisterStimuli(Type type, IStimuliSource stimuliSource);
+        TSenseData GetSenseDataTyped();
+
+        protected void ActivateStimuliSource();
+        protected void DeactivateStimuliSource();
     }
     
-    public interface IStimuliSource<out T> : IStimuliSource where T : IAISense 
+    public interface IStimuliSource
     {
-        T GetSenseData();
+        public Type SenseType { get; }
+        public Type DataType { get; }
+        
+        T GetSenseDataTyped<T>() where T : IPerceptionData;
+        
+        protected void ActivateStimuliSource();
+        protected void DeactivateStimuliSource();
     }
 }
