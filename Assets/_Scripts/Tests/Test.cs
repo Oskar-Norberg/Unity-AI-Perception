@@ -1,5 +1,4 @@
-﻿using ringo.AIPerception.Senses.Hearing;
-using ringo.AIPerceptionSystem;
+﻿using ringo.AIStimuliSource.Hearing;
 using UnityEngine;
 
 namespace _Scripts.Tests
@@ -10,8 +9,7 @@ namespace _Scripts.Tests
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                MonoSingletonAIPerceptionSystem.Instance.Alert<HearingSense>(new HearingPerceptionData
-                    { Position = new System.Numerics.Vector3(transform.position.x, transform.position.y, transform.position.z) });
+                GetComponent<MonoHearingStimuliSource>().MakeNoise();
             }
         }
     }

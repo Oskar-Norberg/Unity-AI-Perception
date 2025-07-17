@@ -1,4 +1,5 @@
-﻿using ringo.AIPerception.Senses.Hearing;
+﻿using System.Numerics;
+using ringo.AIPerception.Senses.Hearing;
 using ringo.AIPerceptionSystem;
 using ringo.AIStimuliSource.Implementation;
 
@@ -6,6 +7,12 @@ namespace ringo.AIStimuliSource.Hearing
 {
     public class MonoHearingStimuliSource : MonoStimuliSource<HearingSense, HearingPerceptionData>
     {
+        public void MakeNoise()
+        {
+            MonoSingletonAIPerceptionSystem.Instance.Alert<HearingSense>(new HearingPerceptionData
+                { Position = new Vector3(transform.position.x, transform.position.y, transform.position.z) });
+        }
+
         public override HearingPerceptionData GetSenseDataTypedInternal()
         {
             return default;
