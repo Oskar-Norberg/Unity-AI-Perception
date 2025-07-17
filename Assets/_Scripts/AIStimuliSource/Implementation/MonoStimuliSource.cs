@@ -10,11 +10,21 @@ namespace ringo.AIStimuliSource.Implementation
         public Type SenseType => typeof(TSense);
         public Type DataType => typeof(TSenseData);
         
+        [SerializeField] private bool activateOnStart = true;
+        
         public abstract TSenseData GetSenseDataTypedInternal();
         
         public abstract void ActivateStimuliSourceInternal();
         public abstract void DeactivateStimuliSourceInternal();
-        
+
+        protected void Start()
+        {
+            if (activateOnStart)
+            {
+                ActivateStimuliSourceInternal();
+            }
+        }
+
         public T GetSenseDataTyped<T>() where T : IPerceptionData
         {
             // TODO: Ugly cast.
